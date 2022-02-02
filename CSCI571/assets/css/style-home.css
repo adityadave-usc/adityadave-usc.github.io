@@ -6,6 +6,14 @@
   font-family: "Montserrat", sans-serif;
 }
 
+:root {
+  --color-lime: #aae773;
+  --color-grapefruit: #ffb3b3;
+  --color-passionfruit: #ff5e78;
+  --color-lemon: #fdfb8a;
+  --color-orange: #ffbd80;
+}
+
 .container {
   width: 100%;
   height: 100vh;
@@ -39,10 +47,10 @@
 }
 
 .work-list .work-link:hover {
-  background-color: rgb(173, 255, 47);
+  background-color: var(--color-grapefruit);
   transition: background-color 2000ms ease-out;
 }
 
 .work-list .work-item:nth-last-child(n + 2) {
-  border-right: 2px dashed rgb(173, 255, 47);
+  border-right: 2px dashed var(--color-orange);
 }
