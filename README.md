@@ -1,2 +1,3 @@
-# adityadave-usc.github.io
-My GitHub Page
+# Aditya Dave, MS in CS @ USC
+
+This repository contains my work at USC.
