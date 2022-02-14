@@ -1,1 +1,182 @@
 @import url("./my-reset.css");
+
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+/*
+ *
+  Fonts Usage
+
+  font-family: 'Comfortaa', cursive;
+  font-family: 'Montserrat', sans-serif;
+  */
+
+:root {
+  --color: white;
+  --bg-color: black;
+  --bg-grey: rgb(34, 37, 41);
+  --color-highlight: rgb(229, 127, 59);
+  --overlay-404-color: rgb(172, 107, 57);
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--color);
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+}
+
+/*
+ * Navbar
+ */
+
+header {
+  padding: 16px;
+}
+
+.navbar ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 28px;
+  font-family: "Comfortaa", cursive;
+}
+
+.navbar .nav-item {
+  margin: 16px 128px;
+  color: white;
+  text-shadow: 1px 1px 1px var(--color-highlight);
+}
+
+.navbar .nav-link:hover {
+  color: var(--color-highlight);
+  text-shadow: 1px 1px 1px white;
+}
+
+.navbar-inverted .nav-link {
+  color: var(--color-highlight);
+  text-shadow: 1px 1px 1px white;
+}
+
+.navbar-inverted .nav-link:hover {
+  color: white;
+  text-shadow: 1px 1px 1px var(--color-highlight);
+}
+
+/*
+ * Footer
+ */
+
+footer {
+  padding: 64px;
+}
+
+footer .row {
+  align-items: flex-end;
+}
+
+footer .quote .author {
+  display: block;
+  margin-top: 32px;
+  font-weight: 500;
+}
+
+footer .design-by {
+  display: flex;
+  flex-direction: column;
+}
+
+footer .design-by h5 {
+  margin-bottom: 24px;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+footer .design-by h6 {
+  margin-bottom: 24px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+footer .design-by a {
+  display: block;
+  margin-top: 4px;
+}
+
+/***********/
+/*
+ *  Page: 404
+ */
+
+.main-banner .container {
+  position: relative;
+  padding: 200px 128px;
+  text-align: center;
+}
+
+.main-banner .message {
+  color: black;
+  font-size: 42px;
+  font-weight: 500;
+  position: relative;
+}
+
+.bg-img-404 {
+  background-image: url("./../images/404.jpg");
+  background-position: center;
+}
+
+.bg-img-404-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--overlay-404-color);
+  opacity: 0.7;
+}
+
+.info-404-section {
+  padding: 128px 0;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/************/
+/*
+* Utilities
+*/
+
+.bg-black {
+  background-color: black;
+}
+
+.bg-grey {
+  background-color: var(--bg-grey);
+}
+
+.center {
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.row .col-25 {
+  flex-basis: 25%;
+}
+
+.row .col-50 {
+  flex-basis: 50%;
+}
+
+.row .col-75 {
+  flex-basis: 75%;
+}
+
+.row .col-100 {
+  flex-basis: 100%;
+}
