@@ -25,6 +25,10 @@ body {
   font-size: 16px;
 }
 
+p {
+  line-height: 1.4;
+}
+
 /*
  * Navbar
  */
@@ -106,15 +110,11 @@ footer .design-by a {
 /*
  *  Page: Home
  */
-
-.main-banner .container {
+.main-banner .bg-img-home {
   padding: 200px 128px;
   text-align: center;
   color: var(--color-highlight);
   text-shadow: 1px 1px 1px white;
-}
-
-.main-banner .bg-img-home {
   background-image: url("./../images/rodeo-drive.jpg");
   background-position: bottom;
   background-size: cover;
@@ -127,12 +127,74 @@ footer .design-by a {
   font-weight: 500;
 }
 
+.section {
+  padding: 128px 0;
+}
+
+.section2 .info-cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.section2 .info-cards .card {
+  flex: 1;
+  background-color: black;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 1px 7px 15px -2px rgba(0, 0, 0, 0.49);
+}
+
+.section2 .info-cards .card .card-img {
+  max-height: 235px;
+  border-radius: 4px;
+  object-fit: fill;
+}
+
+.section3 p {
+  font-weight: 500;
+  margin-bottom: 16px;
+  text-align: justify;
+}
+
+.section4 .locations {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 32px;
+}
+
+.section4 .locations .location {
+  gap: 32px;
+}
+
+.section4 .locations .location:nth-child(2n + 1) {
+  text-align: left;
+}
+
+.section4 .locations .location:nth-child(2n) {
+  text-align: right;
+  flex-direction: row-reverse;
+}
+
+.section4 .locations .location .title {
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+
+.section4 .locations .location .description {
+  text-align: justify;
+}
+
 /***********/
 /*
  *  Page: 404
  */
 
-.main-banner .container {
+.main-banner .bg-img-404 {
   position: relative;
   padding: 200px 128px;
   text-align: center;
@@ -181,13 +243,23 @@ footer .design-by a {
   background-color: var(--bg-grey);
 }
 
+.img-fluid {
+  width: 100%;
+}
+
 .center {
   text-align: center;
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
 }
 
 .row {
   display: flex;
   flex-direction: row;
+  gap: 16px;
 }
 
 .row .col-25 {
@@ -204,4 +276,25 @@ footer .design-by a {
 
 .row .col-100 {
   flex-basis: 100%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.card .card-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.card .card-header {
+  margin-bottom: 12px;
+}
+
+.card .card-content .title {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 12px;
 }
