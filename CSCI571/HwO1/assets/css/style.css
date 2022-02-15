@@ -118,20 +118,23 @@ footer .design-by a {
  *  Page: Home
  */
 .main-banner .bg-img-home {
-  padding: 200px 128px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 400px;
+  max-height: 400px;
   text-align: center;
-  color: var(--color-highlight);
-  text-shadow: 1px 1px 1px white;
   background-image: url("./../images/rodeo-drive.jpg");
   background-position: bottom;
-  background-size: cover;
+  background-size: 1920px;
   background-repeat: no-repeat no-repeat;
-  /* TODO: Check image resizing issue on browser resize */
 }
 
 .main-banner h2 {
   font-size: 32px;
   font-weight: 500;
+  color: var(--color-highlight);
+  text-shadow: 1px 1px 1px white;
 }
 
 .section {
@@ -241,7 +244,6 @@ footer .design-by a {
 /*
 * Utilities
 */
-
 .bg-black {
   background-color: black;
 }
