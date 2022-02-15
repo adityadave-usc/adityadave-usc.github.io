@@ -60,9 +60,9 @@ async function renderSection2(infos) {
     // Change image
     inf = inf.replace("###@1", info["image"]);
     // Change image alt
-    inf = inf.replace("###@2", INFO_MAP[info["image"]]);
+    inf = inf.replace("###@2", info["heading"]);
     // Change title
-    inf = inf.replace("###@3", INFO_MAP[info["image"]]);
+    inf = inf.replace("###@3", info["heading"]);
     // Change text
     inf = inf.replace("###@4", info["text"]);
 

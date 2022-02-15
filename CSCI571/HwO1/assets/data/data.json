@@ -2,20 +2,22 @@
     "section2": [
         {
             "image": "griffith.jpg",
+            "heading": "Griffith Observatory",
             "text": "Griffith Observatory is southern California's gateway to the cosmos! Visitors may look through telescopes, explore exhibits, see live shows in the Samuel Oschin Planetarium, and enjoy spectacular views of Los Angeles and the Hollywood Sign."
         },
         {
             "image": "mountains.jpg",
+            "heading": "Mountains",
             "text": "Soaring high above the Los Angeles Basin, the San Gabriel Mountains serves as the backyard to the nation's second-largest urban center. This chaparral-cloaked land of steep ridges and V-shaped canyons is one of the wildest remaining areas in the surrounding Angeles National Forest"
         },
         {
             "image": "universalstudios.jpg",
+            "heading": "Universal Studios",
             "text": "Find a full day of action-packed entertainment all in one place: thrilling Theme Park rides and shows, a real working movie studio, and Los Angeles' best shops, restaurants and cinemas at CityWalk. Universal Studios Hollywood is a unique experience that's fun for the whole family."
         }
     ],
     "section3":{
         "text": ["Los Angeles is the City of Dreams and is the heart of southern California. It is a vast and varied geographic entity. The city is famous  for being the home of the rich and famous, Hollywood, the main home of major entertainment companies, ethnically diverse, and the second-largest city in America.","The residents of Los Angeles are called Angelenos. Their lifestyle relies on the automobile, idealizes the single-family dwelling, and favours informality. With notable exceptions, the skyline is primarily horizontal rather than vertical. Los Angeles is a place of extraordinary ethnic and racial diversity, owing largely to immigration. It is a must visit place and a beautiful vacation desination."]
-
     },
     "section4":[
         {
