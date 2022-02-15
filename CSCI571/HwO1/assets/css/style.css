@@ -29,6 +29,13 @@ p {
   line-height: 1.4;
 }
 
+.top-border {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  border-top: 2px solid rgb(180, 23, 23);
+}
+
 /*
  * Navbar
  */
