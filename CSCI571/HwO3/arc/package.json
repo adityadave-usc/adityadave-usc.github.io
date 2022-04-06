@@ -43,5 +43,6 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "html-webpack-plugin": "^5.5.0"
-  }
+  },
+  "homepage": "https://adityadave-usc.github.io/CSCI571/HwO3/arc/build/"
 }
