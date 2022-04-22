@@ -14,7 +14,6 @@ class Album597 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Album 597',
       theme: ThemeData(
         // This is the theme of your application.
