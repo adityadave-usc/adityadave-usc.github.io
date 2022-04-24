@@ -8,6 +8,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -15,10 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<XFile> images = [];
 
-  @override
-  void didUpdateWidget(covariant HomePage oldWidget) async {
-    super.didUpdateWidget(oldWidget);
-    // Save to preferences
+  void saveImagesToPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     final storeImages = <String>[];
     for (XFile image in this.images) {
@@ -31,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final Map args = ModalRoute.of(context)?.settings.arguments as Map;
 
+    print(args['images']);
     // Load previous images
     for (String imagePath in args['images']) {
       images.add(XFile(imagePath));
@@ -46,32 +46,33 @@ class _HomePageState extends State<HomePage> {
               ? Expanded(
                   child: Center(child: Image.asset('assets/images/empty.png')))
               : Expanded(
-                  child: GridView.count(
+                  child: GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        mainAxisSpacing: 8,
+                        crossAxisSpacing: 8,
+                      ),
                       primary: false,
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 8,
-                      children: images
-                          .map(
-                            (image) => Column(children: [
-                              ClipRRect(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(8)),
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                            context, '/image_viewer',
-                                            arguments: {
-                                              'imagePath': image.path
-                                            });
-                                      },
-                                      child: Image.file(File(image.path),
-                                          fit: BoxFit.cover,
-                                          width: 120.0,
-                                          height: 120.0)))
-                            ]),
-                          )
-                          .toList()),
+                      itemCount: images.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(children: [
+                          ClipRRect(
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(8)),
+                              child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, '/image_viewer',
+                                        arguments: {
+                                          'imagePath': images[index].path
+                                        });
+                                  },
+                                  child: Image.file(File(images[index].path),
+                                      fit: BoxFit.cover,
+                                      width: 120.0,
+                                      height: 120.0)))
+                        ]);
+                      }),
                 ),
           const SizedBox(height: 8.0),
           Row(
@@ -91,12 +92,7 @@ class _HomePageState extends State<HomePage> {
                         }
                       });
                       // Save to preferences
-                      final prefs = await SharedPreferences.getInstance();
-                      final storeImages = <String>[];
-                      for (XFile image in this.images) {
-                        storeImages.add(image.path);
-                      }
-                      prefs.setStringList('images', storeImages);
+                      saveImagesToPrefs();
                     },
                     icon: const Icon(Icons.photo_library_sharp),
                     label: const Text('Add from Gallery')),
@@ -122,12 +118,7 @@ class _HomePageState extends State<HomePage> {
                           });
 
                           // Save to preferences
-                          final prefs = await SharedPreferences.getInstance();
-                          final storeImages = <String>[];
-                          for (XFile image in this.images) {
-                            storeImages.add(image.path);
-                          }
-                          prefs.setStringList('images', storeImages);
+                          saveImagesToPrefs();
                         }
                       },
                       icon: const Icon(Icons.photo_camera),

@@ -3,6 +3,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoadingPage extends StatelessWidget {
+  const LoadingPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(milliseconds: 500), () async {

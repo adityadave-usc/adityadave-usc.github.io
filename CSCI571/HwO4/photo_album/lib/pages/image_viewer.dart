@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 class ImageViewerPage extends StatelessWidget {
   late Future<ImageInfo> imageInfo;
 
+  ImageViewerPage({Key? key}) : super(key: key);
+
   Future<ImageInfo> getImageInfo(Image img) async {
     final c = Completer<ImageInfo>();
     img.image
