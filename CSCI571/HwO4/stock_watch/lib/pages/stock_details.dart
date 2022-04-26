@@ -29,7 +29,7 @@ class _StockDetailsState extends State<StockDetails> {
             child: Icon(
               isFavorite ? CupertinoIcons.star_fill : CupertinoIcons.star,
               color: Colors.white,
-              size: 20.0,
+              size: 18.0,
             ),
             onPressed: () {
               setState(() {
