@@ -34,23 +34,27 @@ class _StockDetailsState extends State<StockDetails> {
             onPressed: () {
               setState(() {
                 isFavorite = !isFavorite;
-                showCupertinoDialog<void>(
-                  context: context,
-                  builder: (BuildContext context) => CupertinoAlertDialog(
-                    content: const Text(
-                      'AMZN added to the watchlist.',
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                    actions: <CupertinoDialogAction>[
-                      CupertinoDialogAction(
-                        child: const Text('Okay'),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      )
-                    ],
-                  ),
+                // showCupertinoDialog<void>(
+                //   context: context,
+                //   builder: (BuildContext context) => CupertinoAlertDialog(
+                //     content: const Text(
+                //       'AMZN added to the watchlist.',
+                //       style: TextStyle(fontSize: 16.0),
+                //     ),
+                //     actions: <CupertinoDialogAction>[
+                //       CupertinoDialogAction(
+                //         child: const Text('Okay'),
+                //         onPressed: () {
+                //           Navigator.pop(context);
+                //         },
+                //       )
+                //     ],
+                //   ),
+                // );
+                const snackBar = SnackBar(
+                  content: Text('Yay! A SnackBar!'),
                 );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               });
             },
           ),

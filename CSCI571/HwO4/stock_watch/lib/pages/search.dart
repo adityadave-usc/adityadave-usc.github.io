@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -9,6 +10,11 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+
+  final String FINNHUB_URL = FlutterConfig.get('FINNHUB_URL');
+
+  final String FINNHUB_KEY = FlutterConfig.get('FINNHUB_KEY');
+
   final List<String> suggestions = <String>[
     'Suggestion 01 | Suggest 01',
     'Suggestion 02 | Suggest 01'

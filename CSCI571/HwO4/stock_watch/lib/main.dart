@@ -1,12 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
+
 import 'package:stock_watch/pages/home.dart';
 import 'package:stock_watch/pages/loading.dart';
 import 'package:stock_watch/pages/search.dart';
 import 'package:stock_watch/pages/stock_details.dart';
 
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterConfig.loadEnvVariables();
+
   runApp(const StockWatchApp());
 }
 
@@ -24,6 +29,11 @@ class StockWatchApp extends StatelessWidget {
           primaryColor: Colors.white
         ),
       ),
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+        DefaultMaterialLocalizations.delegate,
+        DefaultWidgetsLocalizations.delegate,
+        DefaultCupertinoLocalizations.delegate,
+      ],
       initialRoute: '/',
       routes: {
         '/': (BuildContext context) => const LoadingPage(),
