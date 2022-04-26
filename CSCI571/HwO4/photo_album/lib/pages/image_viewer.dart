@@ -39,10 +39,12 @@ class ImageViewerPage extends StatelessWidget {
       if (imageInfo == null) {
         return errorMessage;
       }
-      return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-        Text('Image Width: ${imageInfo.image.width}'),
-        Text('Image Height: ${imageInfo.image.height}')
-      ]);
+      return Container(
+          margin: const EdgeInsets.all(8.0),
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Text('Image Width: ${imageInfo.image.width}'),
+            Text('Image Height: ${imageInfo.image.height}')
+          ]));
     }
   }
 
@@ -53,26 +55,30 @@ class ImageViewerPage extends StatelessWidget {
     final imagePath = args['imagePath'];
     final Image image = Image.file(
       File(imagePath),
-      fit: BoxFit.contain,
     );
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Fullscreen Image'),
-        ),
-        body: Container(
-          margin: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Expanded(
-                  child: Center(
-                child: image,
-              )),
-              const SizedBox(height: 8.0),
-              FutureBuilder<ImageInfo>(
-                  future: getImageInfo(image), builder: imageInfoLoader),
-            ],
-          ),
-        ));
+      appBar: AppBar(
+        title: const Text('Fullscreen Image'),
+      ),
+      body: ListView(
+        children: [
+          image,
+          const SizedBox(height: 8.0),
+          FutureBuilder<ImageInfo>(
+              future: getImageInfo(image), builder: imageInfoLoader),
+        ],
+      ),
+    );
   }
 }
+
+
+// ListView(
+// children: [
+// image,
+// const SizedBox(height: 8.0),
+// FutureBuilder<ImageInfo>(
+// future: getImageInfo(image), builder: imageInfoLoader),
+// ],
+// )

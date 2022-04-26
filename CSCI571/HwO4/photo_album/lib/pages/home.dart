@@ -16,11 +16,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<XFile> images = [];
+  bool loadOneTime = true;
 
   void saveImagesToPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     final storeImages = <String>[];
-    for (XFile image in this.images) {
+    for (XFile image in images) {
       storeImages.add(image.path);
     }
     prefs.setStringList('images', storeImages);
@@ -30,10 +31,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final Map args = ModalRoute.of(context)?.settings.arguments as Map;
 
-    print(args['images']);
     // Load previous images
-    for (String imagePath in args['images']) {
-      images.add(XFile(imagePath));
+    if(loadOneTime) {
+      for (String imagePath in args['images']) {
+        images.add(XFile(imagePath));
+      }
+      loadOneTime = !loadOneTime;
     }
 
     return Scaffold(
@@ -89,10 +92,13 @@ class _HomePageState extends State<HomePage> {
                           final updatedImages = [...this.images];
                           updatedImages.addAll(images);
                           this.images = updatedImages;
+
+                          // Save to preferences
+                          saveImagesToPrefs();
+                        } else {
+
                         }
                       });
-                      // Save to preferences
-                      saveImagesToPrefs();
                     },
                     icon: const Icon(Icons.photo_library_sharp),
                     label: const Text('Add from Gallery')),
@@ -115,10 +121,10 @@ class _HomePageState extends State<HomePage> {
 
                           setState(() {
                             images.add(XFile(newImage.path));
-                          });
 
-                          // Save to preferences
-                          saveImagesToPrefs();
+                            // Save to preferences
+                            saveImagesToPrefs();
+                          });
                         }
                       },
                       icon: const Icon(Icons.photo_camera),
