@@ -37,7 +37,10 @@ class _StockDetailsState extends State<StockDetails> {
                 showCupertinoDialog<void>(
                   context: context,
                   builder: (BuildContext context) => CupertinoAlertDialog(
-                    content: const Text('AMZN added to the watchlist.'),
+                    content: const Text(
+                      'AMZN added to the watchlist.',
+                      style: TextStyle(fontSize: 16.0),
+                    ),
                     actions: <CupertinoDialogAction>[
                       CupertinoDialogAction(
                         child: const Text('Okay'),

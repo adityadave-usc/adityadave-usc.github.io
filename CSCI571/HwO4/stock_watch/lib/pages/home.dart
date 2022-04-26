@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<String> favorites = <String>[/*'Sample 01', 'Sample 02'*/];
+  final List<String> favorites = <String>['Sample 01', 'Sample 02'];
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,6 @@ class _HomePageState extends State<HomePage> {
                     TextStyle(letterSpacing: 0.8, fontWeight: FontWeight.bold),
               ),
               const Divider(height: 32.0, color: Colors.white, thickness: 1.0),
-              // ListView.builder(itemBuilder: (itemBuilder),
               favorites.isEmpty
                   ? const Center(
                       child: Text(

@@ -10,8 +10,8 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final List<String> suggestions = <String>[
-    // 'Suggestion 01 | Suggest 01',
-    // 'Suggestion 02 | Suggest 01'
+    'Suggestion 01 | Suggest 01',
+    'Suggestion 02 | Suggest 01'
   ];
 
   @override
