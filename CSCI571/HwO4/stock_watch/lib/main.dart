@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:stock_watch/pages/home.dart';
@@ -20,7 +19,7 @@ class StockWatchApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    debugPaintSizeEnabled = true;
+    // debugPaintSizeEnabled = true;
 
     return MaterialApp(
       title: 'Stock Watch',

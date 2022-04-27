@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:stock_watch/models/stock.dart';
+import 'package:stock_watch/widgets/dismissible_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,7 +11,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<String> favorites = <String>['Sample 01', 'Sample 02'];
+  final List<Stock> stockWatchlist = <Stock>[
+    const Stock(name: 'Name 01', ticker: 'Ticker 01'),
+    const Stock(name: 'Name 02', ticker: 'Ticker 02')
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +24,10 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: const Text(
             'Stock',
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, letterSpacing: 0.4),
+            style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.4),
           ),
           actions: [
             IconButton(
@@ -64,13 +72,13 @@ class _HomePageState extends State<HomePage> {
                 height: 16.0,
               ),
               const Text(
-                'Favorites',
+                'Watch List',
                 textAlign: TextAlign.start,
                 style:
                     TextStyle(letterSpacing: 0.8, fontWeight: FontWeight.bold),
               ),
               const Divider(height: 32.0, color: Colors.white, thickness: 1.0),
-              favorites.isEmpty
+              stockWatchlist.isEmpty
                   ? const Center(
                       child: Text(
                       'Empty',
@@ -82,32 +90,45 @@ class _HomePageState extends State<HomePage> {
                     ))
                   : Expanded(
                       child: ListView.separated(
-                      itemCount: favorites.length,
+                      itemCount: stockWatchlist.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return TextButton(
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        favorites[index],
-                                        style: const TextStyle(
-                                            fontSize: 18.0,
-                                            color: Colors.white),
-                                      ),
-                                      Text(
-                                        favorites[index],
-                                        style:
-                                            const TextStyle(color: Colors.grey),
-                                      )
+                        return DismissibleWidget(
+                          item: stockWatchlist[index],
+                          child: stockTile(stockWatchlist[index]),
+                          confirmDismissed: (DismissDirection direction) {
+                            return showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text('Please Confirm', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 0.8,)),
+                                    content: const Text(
+                                        'Are you sure, you want to remove item_name from favorites?'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context, true);
+                                          },
+                                          child: const Text('Delete')),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context, false);
+                                          },
+                                          child: const Text('Cancel'))
                                     ],
-                                  )
-                                ],
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/stock_details');
-                              },
+                                  );
+                                });
+                          },
+                          onDismissed: (DismissDirection direction) {
+                            setState(() {
+                              stockWatchlist.removeAt(index);
+                            });
+                            const SnackBar snackBar = SnackBar(
+                              content: Text('AMZN removed from the watchlist'),
+                              duration: Duration(milliseconds: 800),
                             );
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          },
+                        );
                       },
                       separatorBuilder: (BuildContext context, int index) =>
                           const Divider(
@@ -117,5 +138,29 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ));
+  }
+
+  Widget stockTile(Stock stock) {
+    return TextButton(
+      child: Row(
+        children: [
+          Column(
+            children: [
+              Text(
+                stock.ticker,
+                style: const TextStyle(fontSize: 18.0, color: Colors.white),
+              ),
+              Text(
+                stock.name,
+                style: const TextStyle(color: Colors.grey),
+              )
+            ],
+          )
+        ],
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/stock_details');
+      },
+    );
   }
 }
