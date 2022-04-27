@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class StockDetails extends StatefulWidget {
@@ -17,49 +16,44 @@ class _StockDetailsState extends State<StockDetails> {
   Widget build(BuildContext context) {
     // Get stock details from Ticker
 
-    return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          backgroundColor: Colors.black,
-          middle: const Text(
-            'Details',
-            style: TextStyle(letterSpacing: 0.4, color: Colors.white),
-          ),
-          trailing: CupertinoButton(
-            padding: EdgeInsets.zero,
-            child: Icon(
-              isFavorite ? CupertinoIcons.star_fill : CupertinoIcons.star,
-              color: Colors.white,
-              size: 18.0,
+    return Scaffold(
+        appBar: AppBar(
+            title: const Text(
+              'Details',
+              style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.4),
             ),
-            onPressed: () {
-              setState(() {
-                isFavorite = !isFavorite;
-                // showCupertinoDialog<void>(
-                //   context: context,
-                //   builder: (BuildContext context) => CupertinoAlertDialog(
-                //     content: const Text(
-                //       'AMZN added to the watchlist.',
-                //       style: TextStyle(fontSize: 16.0),
-                //     ),
-                //     actions: <CupertinoDialogAction>[
-                //       CupertinoDialogAction(
-                //         child: const Text('Okay'),
-                //         onPressed: () {
-                //           Navigator.pop(context);
-                //         },
-                //       )
-                //     ],
-                //   ),
-                // );
-                const snackBar = SnackBar(
-                  content: Text('Yay! A SnackBar!'),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              });
-            },
-          ),
-        ),
-        child: Container(
+            actions: [
+              IconButton(
+                icon: Icon(
+                  isFavorite ? Icons.star : Icons.star_border_outlined,
+                ),
+                onPressed: () {
+                  setState(() {
+                    isFavorite = !isFavorite;
+
+                    SnackBar snackBar;
+                    if (isFavorite) {
+                      snackBar = const SnackBar(
+                        content: Text('AMZN added to the wishlist'),
+                        duration: Duration(milliseconds: 800),
+                      );
+                    } else {
+                      snackBar = const SnackBar(
+                        content: Text('AMZN removed from the watchlist'),
+                        duration: Duration(milliseconds: 800),
+                      );
+                    }
+
+                    // Show the SnackBar
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  });
+                },
+              ),
+            ]),
+        body: Container(
           margin: const EdgeInsets.all(16.0),
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             Row(
@@ -79,18 +73,19 @@ class _StockDetailsState extends State<StockDetails> {
             ),
             const SizedBox(height: 8.0),
             Row(
-              children: const [
-                Text('3055.7',
+              children: [
+                const Text('3055.7',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 22.0,
                         letterSpacing: 0.4)),
-                SizedBox(
+                const SizedBox(
                   width: 12.0,
                 ),
                 Text('+21.57',
                     style: TextStyle(
-                        color: Colors.green,
+                        color:
+                            '+21.57'.contains('+') ? Colors.green : Colors.red,
                         fontSize: 22.0,
                         letterSpacing: 0.4)),
               ],

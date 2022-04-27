@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -11,9 +10,9 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
 
-  final String FINNHUB_URL = FlutterConfig.get('FINNHUB_URL');
+  final String FINNHUB_URL = dotenv.env['FINNHUB_URL'] ?? '';
 
-  final String FINNHUB_KEY = FlutterConfig.get('FINNHUB_KEY');
+  final String FINNHUB_KEY = dotenv.env['FINNHUB_KEY'] ?? '';
 
   final List<String> suggestions = <String>[
     'Suggestion 01 | Suggest 01',
@@ -22,19 +21,13 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-        navigationBar: const CupertinoNavigationBar(
-          backgroundColor: Colors.black,
-          middle: CupertinoSearchTextField(
-            padding: EdgeInsets.only(left: 8.0, bottom: 4.0),
-            placeholder: 'Search',
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-            ),
+    return Scaffold(
+        appBar: AppBar(
+          title: const TextField(
             autofocus: true,
           ),
         ),
-        child: Container(
+        body: Container(
           margin: const EdgeInsets.all(16.0),
           child: suggestions.isEmpty
               ? const Center(
@@ -47,11 +40,10 @@ class _SearchPageState extends State<SearchPage> {
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
-                      child: CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        alignment: Alignment.centerLeft,
+                      child: TextButton(
                         child: Text(
                           suggestions[index],
+                          textAlign: TextAlign.start,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, letterSpacing: 0.8, color: Colors.white),
                         ),

@@ -1,5 +1,4 @@
 import 'package:intl/intl.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,26 +15,27 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // Load String of Tickers
 
-    return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          backgroundColor: Colors.purple,
-          middle: const Text(
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text(
             'Stock',
-            style: TextStyle(letterSpacing: 0.4),
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, letterSpacing: 0.4),
           ),
-          trailing: CupertinoButton(
-            padding: EdgeInsets.zero,
-            child: const Icon(
-              CupertinoIcons.search,
-              color: Colors.white,
-              size: 18.0,
-            ),
-            onPressed: () {
-              Navigator.pushNamed(context, "/search");
-            },
-          ),
+          actions: [
+            IconButton(
+              // padding: EdgeInsets.zero,
+              icon: const Icon(
+                Icons.search,
+                color: Colors.white,
+                size: 24.0,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, "/search");
+              },
+            )
+          ],
         ),
-        child: Container(
+        body: Container(
           margin: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -77,24 +77,23 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           height: 4.0,
-                          letterSpacing: 1.0, fontSize: 24.0),
+                          letterSpacing: 1.0,
+                          fontSize: 24.0),
                     ))
                   : Expanded(
                       child: ListView.separated(
                       itemCount: favorites.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                            margin:
-                                const EdgeInsets.fromLTRB(16.0, 4.0, 0.0, 4.0),
-                            child: CupertinoButton(
-                              padding: EdgeInsets.zero,
+                        return TextButton(
                               child: Row(
                                 children: [
                                   Column(
                                     children: [
                                       Text(
                                         favorites[index],
-                                        style: const TextStyle(fontSize: 18.0, color: Colors.white),
+                                        style: const TextStyle(
+                                            fontSize: 18.0,
+                                            color: Colors.white),
                                       ),
                                       Text(
                                         favorites[index],
@@ -108,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 Navigator.pushNamed(context, '/stock_details');
                               },
-                            ));
+                            );
                       },
                       separatorBuilder: (BuildContext context, int index) =>
                           const Divider(
