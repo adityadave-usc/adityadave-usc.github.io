@@ -3,7 +3,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:stock_watch/pages/home.dart';
 import 'package:stock_watch/pages/loading.dart';
-import 'package:stock_watch/pages/search.dart';
 import 'package:stock_watch/pages/stock_details.dart';
 
 
@@ -41,8 +40,7 @@ class StockWatchApp extends StatelessWidget {
       routes: {
         '/': (BuildContext context) => const LoadingPage(),
         '/home': (BuildContext context) => const HomePage(),
-        '/search': (BuildContext context) => const SearchPage(),
-        '/stock_details': (BuildContext context) => const StockDetails()
+        '/stock_details': (BuildContext context) => const StockDetailsPage()
       },
     );
   }
