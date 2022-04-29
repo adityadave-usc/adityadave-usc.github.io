@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                   height: 16.0,
                 ),
                 const Text(
-                  'WATCH LIST',
+                  'MY WATCH LIST',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                       letterSpacing: 0.8, fontWeight: FontWeight.bold),
@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                                                 letterSpacing: 0.8,
                                               )),
                                           content: Text(
-                                              'Are you sure, you want to remove ${stockWatchList[index].symbol} from favorites?'),
+                                              'Are you sure, you want to remove ${stockWatchList[index].symbol} from your watch list?'),
                                           actions: [
                                             TextButton(
                                                 onPressed: () {
