@@ -4,6 +4,7 @@ import 'package:stock_watch/models/stock.dart';
 import 'package:stock_watch/pages/stock_details.dart';
 
 class StockSearchDelegate extends SearchDelegate<StockMeta?> {
+
   @override
   List<Widget>? buildActions(BuildContext context) => [
         IconButton(
@@ -56,24 +57,28 @@ class StockSearchDelegate extends SearchDelegate<StockMeta?> {
     return ListView.builder(
         itemCount: suggestions.length,
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            padding: const EdgeInsets.all(8.0),
-            child: TextButton(
-              style: const ButtonStyle(
-                alignment: Alignment.centerLeft,
-              ),
-              child: Text(
-                suggestions[index].symbol.toUpperCase() +
-                    ' | ' +
-                    suggestions[index].description.toUpperCase(),
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 0.8,
-                    color: Colors.white),
-              ),
-              onPressed: () => close(context, suggestions[index]),
+          return TextButton(
+            style: const ButtonStyle(
+              alignment: Alignment.centerLeft,
             ),
+            child: Text(
+              suggestions[index].symbol.toUpperCase() +
+                  ' | ' +
+                  suggestions[index].description.toUpperCase(),
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.8,
+                  color: Colors.white),
+            ),
+            onPressed: () => close(context, suggestions[index]),
           );
         });
+  }
+
+  @override
+  void showResults(BuildContext context) {
+    super.showResults(context);
+    showSuggestions(context);
+    FocusScope.of(context).unfocus();
   }
 }

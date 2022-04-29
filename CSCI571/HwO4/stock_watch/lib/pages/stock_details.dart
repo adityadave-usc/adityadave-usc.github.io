@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
@@ -16,70 +15,44 @@ class StockDetailsPage extends StatefulWidget {
 }
 
 class _StockDetailsPageState extends State<StockDetailsPage> {
-  // Todo: Remove watch list button if Failed to fetch data
-  bool isWatchListed = false;
-  
+  bool isStockWatchListed = false;
+  bool firstLoad = true;
+
   late StockMeta stockToShow;
+  late List<StockMeta> watchList;
   final numberFormatter = NumberFormat('###.0#');
 
   @override
   Widget build(BuildContext context) {
     // Get stock details from Ticker
-    stockToShow =
-        ModalRoute.of(context)?.settings.arguments as StockMeta;
+    if (firstLoad) {
+      stockToShow = ModalRoute.of(context)?.settings.arguments as StockMeta;
+      firstLoad = !firstLoad;
+    }
 
     numberFormatter.minimumFractionDigits = 2;
     numberFormatter.minimumIntegerDigits = 1;
 
-    // Load watch list
-
-
-
     return Scaffold(
         appBar: AppBar(
-            title: const Text(
-              'Details',
-              style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.4),
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(
-                  isWatchListed ? Icons.star : Icons.star_border_outlined,
-                ),
-                onPressed: () {
-                  setState(() {
-                    isWatchListed = !isWatchListed;
-
-                    SnackBar snackBar;
-                    if (isWatchListed) {
-                      addStockToWatchList(stockToShow);
-                      snackBar = SnackBar(
-                        content: Text(stockToShow.symbol + ' added to the wishlist'),
-                        duration: const Duration(milliseconds: 800),
-                      );
-                    } else {
-                      removeStockFromWatchList(stockToShow);
-                      snackBar = SnackBar(
-                        content: Text(stockToShow.symbol + ' removed from the watchlist'),
-                        duration: const Duration(milliseconds: 800),
-                      );
-                    }
-
-                    // Show the SnackBar
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  });
-                },
-              ),
-            ]),
+          title: const Text(
+            'Details',
+            style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.4),
+          ),
+          actions: [
+            createWatchListBtn()
+          ],
+        ),
         body: Container(
             margin: const EdgeInsets.all(16.0),
             child: FutureBuilder(
               future: Future.wait([
                 FinnhubAPI.getStockProfile(symbol: stockToShow.symbol),
-                FinnhubAPI.getStockQuote(symbol: stockToShow.symbol)
+                FinnhubAPI.getStockQuote(symbol: stockToShow.symbol),
+                loadWatchListAndCheck()
               ]),
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
@@ -149,8 +122,7 @@ class _StockDetailsPageState extends State<StockDetailsPage> {
           ),
           Text(NumberFormat('+ 0.00 ;- ').format(stockQuote.change),
               style: TextStyle(
-                  color:
-                      stockQuote.change > 0 ? Colors.green : Colors.red,
+                  color: stockQuote.change > 0 ? Colors.green : Colors.red,
                   fontSize: 22.0,
                   letterSpacing: 0.4)),
         ],
@@ -333,29 +305,81 @@ class _StockDetailsPageState extends State<StockDetailsPage> {
   void addStockToWatchList(StockMeta stockMeta) async {
     final prefs = await SharedPreferences.getInstance();
 
-    List previousWatchList = [];
-    String? fromPrefs = prefs.getString('WATCH_LIST');
-    if (fromPrefs != null) {
-      List prefsWatchList = (jsonDecode(fromPrefs) as List);
-      previousWatchList = [ ...prefsWatchList ];
-    }
-    previousWatchList.add(jsonEncode(stockToShow));
+    watchList.add(stockToShow);
 
-    prefs.setString('WATCH_LIST', jsonEncode(previousWatchList));
+    prefs.setString('WATCH_LIST', jsonEncode(watchList));
   }
 
   void removeStockFromWatchList(StockMeta stockMeta) async {
     final prefs = await SharedPreferences.getInstance();
 
-    List previousWatchList = [];
-    String? fromPrefs = prefs.getString('WATCH_LIST');
-    if (fromPrefs != null) {
-      List prefsWatchList = (jsonDecode(fromPrefs) as List);
-      previousWatchList = [ ...prefsWatchList ];
+    int index = -1;
+    for (int i = 0; i < watchList.length; i++) {
+      if (watchList[i].symbol == stockMeta.symbol) {
+        index = i;
+        break;
+      }
     }
 
-    previousWatchList.remove(stockMeta);
+    if (index != -1) {
+      watchList.removeAt(index);
+    }
 
-    prefs.setString('WATCH_LIST', jsonEncode(previousWatchList));
+    prefs.setString('WATCH_LIST', jsonEncode(watchList));
+  }
+
+  Widget createWatchListBtn() {
+    return IconButton(
+      icon: Icon(
+        isStockWatchListed ? Icons.star : Icons.star_border_outlined,
+      ),
+      onPressed: () {
+        setState(() {
+          isStockWatchListed = !isStockWatchListed;
+
+          SnackBar snackBar;
+          if (isStockWatchListed) {
+            addStockToWatchList(stockToShow);
+            snackBar = SnackBar(
+              content: Text(stockToShow.symbol + ' added to the wishlist'),
+              duration: const Duration(milliseconds: 800),
+            );
+          } else {
+            removeStockFromWatchList(stockToShow);
+            snackBar = SnackBar(
+              content: Text(stockToShow.symbol + ' removed from the watchlist'),
+              duration: const Duration(milliseconds: 800),
+            );
+          }
+
+          // Show the SnackBar
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        });
+      },
+    );
+  }
+
+  Future<void> loadWatchListAndCheck() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    List<StockMeta> watchList = [];
+
+    String? fromPrefs = prefs.getString('WATCH_LIST');
+
+    if (fromPrefs != null) {
+      List prefsWatchList = (jsonDecode(fromPrefs) as List);
+      for (Map<String, dynamic> stockMetaMap in prefsWatchList) {
+        StockMeta stockMeta = StockMeta.fromJson(stockMetaMap);
+
+        // Check if current stock is watch listed
+        if (stockMeta.symbol == stockToShow.symbol) {
+          isStockWatchListed = true;
+        }
+
+        watchList.add(stockMeta);
+      }
+    }
+
+    this.watchList = watchList;
   }
 }

@@ -18,8 +18,6 @@ class StockWatchApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // debugPaintSizeEnabled = true;
-
     return MaterialApp(
       title: 'Stock Watch',
       theme: ThemeData(
