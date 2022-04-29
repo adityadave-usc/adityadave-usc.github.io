@@ -15,7 +15,7 @@ class StockDetailsPage extends StatefulWidget {
 }
 
 class _StockDetailsPageState extends State<StockDetailsPage> {
-  bool isStockWatchListed = false;
+  late ValueNotifier<bool> isStockWatchListed;
   bool firstLoad = true;
 
   late StockMeta stockToShow;
@@ -33,6 +33,8 @@ class _StockDetailsPageState extends State<StockDetailsPage> {
     numberFormatter.minimumFractionDigits = 2;
     numberFormatter.minimumIntegerDigits = 1;
 
+    isStockWatchListed = ValueNotifier(false);
+
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -42,9 +44,7 @@ class _StockDetailsPageState extends State<StockDetailsPage> {
                 fontWeight: FontWeight.bold,
                 letterSpacing: 0.4),
           ),
-          actions: [
-            createWatchListBtn()
-          ],
+          actions: [createWatchListBtn()],
         ),
         body: Container(
             margin: const EdgeInsets.all(16.0),
@@ -306,6 +306,7 @@ class _StockDetailsPageState extends State<StockDetailsPage> {
     final prefs = await SharedPreferences.getInstance();
 
     watchList.add(stockToShow);
+    isStockWatchListed.value = true;
 
     prefs.setString('WATCH_LIST', jsonEncode(watchList));
   }
@@ -323,40 +324,47 @@ class _StockDetailsPageState extends State<StockDetailsPage> {
 
     if (index != -1) {
       watchList.removeAt(index);
+      isStockWatchListed.value = false;
     }
 
     prefs.setString('WATCH_LIST', jsonEncode(watchList));
   }
 
   Widget createWatchListBtn() {
-    return IconButton(
-      icon: Icon(
-        isStockWatchListed ? Icons.star : Icons.star_border_outlined,
-      ),
-      onPressed: () {
-        setState(() {
-          isStockWatchListed = !isStockWatchListed;
+    return ValueListenableBuilder(
+        valueListenable: isStockWatchListed,
+        builder: (context, value, child) => IconButton(
+              icon: Icon(
+                isStockWatchListed.value
+                    ? Icons.star
+                    : Icons.star_border_outlined,
+              ),
+              onPressed: () {
+                setState(() {
+                  isStockWatchListed.value = !isStockWatchListed.value;
 
-          SnackBar snackBar;
-          if (isStockWatchListed) {
-            addStockToWatchList(stockToShow);
-            snackBar = SnackBar(
-              content: Text(stockToShow.symbol + ' added to the wishlist'),
-              duration: const Duration(milliseconds: 800),
-            );
-          } else {
-            removeStockFromWatchList(stockToShow);
-            snackBar = SnackBar(
-              content: Text(stockToShow.symbol + ' removed from the watchlist'),
-              duration: const Duration(milliseconds: 800),
-            );
-          }
+                  SnackBar snackBar;
+                  if (isStockWatchListed.value) {
+                    addStockToWatchList(stockToShow);
+                    snackBar = SnackBar(
+                      content:
+                          Text(stockToShow.symbol + ' added to the wishlist'),
+                      duration: const Duration(milliseconds: 800),
+                    );
+                  } else {
+                    removeStockFromWatchList(stockToShow);
+                    snackBar = SnackBar(
+                      content: Text(
+                          stockToShow.symbol + ' removed from the watchlist'),
+                      duration: const Duration(milliseconds: 800),
+                    );
+                  }
 
-          // Show the SnackBar
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        });
-      },
-    );
+                  // Show the SnackBar
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                });
+              },
+            ));
   }
 
   Future<void> loadWatchListAndCheck() async {
@@ -373,7 +381,7 @@ class _StockDetailsPageState extends State<StockDetailsPage> {
 
         // Check if current stock is watch listed
         if (stockMeta.symbol == stockToShow.symbol) {
-          isStockWatchListed = true;
+          isStockWatchListed.value = true;
         }
 
         watchList.add(stockMeta);
