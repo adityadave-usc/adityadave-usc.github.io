@@ -160,8 +160,8 @@ class _HomePageState extends State<HomePage> {
                                                 fontWeight: FontWeight.bold,
                                                 letterSpacing: 0.8,
                                               )),
-                                          content: const Text(
-                                              'Are you sure, you want to remove item_name from favorites?'),
+                                          content: Text(
+                                              'Are you sure, you want to remove ${stockWatchList[index].symbol} from favorites?'),
                                           actions: [
                                             TextButton(
                                                 onPressed: () {
@@ -182,6 +182,7 @@ class _HomePageState extends State<HomePage> {
                                       stockWatchList[index];
                                   setState(() {
                                     stockWatchList.removeAt(index);
+                                    saveStockWatchList(stockWatchList);
                                   });
                                   SnackBar snackBar = SnackBar(
                                     content: Text(stockToDelete.symbol +
@@ -239,6 +240,12 @@ class _HomePageState extends State<HomePage> {
 
   FutureOr onGoBack(dynamic value) {
     refreshData();
+    setState(() { });
+  }
+
+  void saveStockWatchList(List<StockMeta> stockWatchList) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('WATCH_LIST', jsonEncode(stockWatchList));
     setState(() { });
   }
 }
